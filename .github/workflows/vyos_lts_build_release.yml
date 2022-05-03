@@ -53,6 +53,7 @@ jobs:
           set -eux
 
           make qemu
+          gzip packer_build/qemu/vyos-${{ env.RELEASE_VERSION }}-amd64.qcow2
 
       - name: ls
         run: |
@@ -61,6 +62,7 @@ jobs:
           pwd
           ls -lah
           ls -lah vyos-build/build
+          ls -lah packer_build/qemu
 
       - uses: actions/create-release@master
         id: create_release
@@ -88,6 +90,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: vyos-build/build/vyos-${{ env.RELEASE_VERSION }}-amd64.qcow2
-          asset_name: vyos-${{ env.RELEASE_VERSION }}-amd64.qcow2
-          asset_content_type: application/octet-stream
+          asset_path: packer_build/qemu/vyos-${{ env.RELEASE_VERSION }}-amd64.qcow2.gz
+          asset_name: vyos-${{ env.RELEASE_VERSION }}-amd64.qcow2.gz
+          asset_content_type: application/gzip
