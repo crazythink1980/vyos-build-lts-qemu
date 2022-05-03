@@ -47,14 +47,6 @@ jobs:
 
           make iso
 
-      - name: make qemu
-        working-directory: vyos-build
-        run: |
-          set -eux
-
-          make qemu
-          gzip packer_build/qemu/vyos-${{ env.RELEASE_VERSION }}-amd64.qcow2
-
       - name: ls
         run: |
           set -eux
@@ -62,7 +54,6 @@ jobs:
           pwd
           ls -lah
           ls -lah vyos-build/build
-          ls -lah packer_build/qemu
 
       - uses: actions/create-release@master
         id: create_release
@@ -84,12 +75,3 @@ jobs:
           asset_path: vyos-build/build/vyos-${{ env.RELEASE_VERSION }}-amd64.iso
           asset_name: vyos-${{ env.RELEASE_VERSION }}-amd64.iso
           asset_content_type: application/x-iso9660-image
-
-      - uses: actions/upload-release-asset@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: packer_build/qemu/vyos-${{ env.RELEASE_VERSION }}-amd64.qcow2.gz
-          asset_name: vyos-${{ env.RELEASE_VERSION }}-amd64.qcow2.gz
-          asset_content_type: application/gzip
