@@ -34,8 +34,6 @@ jobs:
           ./build-vyos-image iso \
             --architecture amd64 \
             --build-by crazythink@139.com \
-            --build-type release \
-            --version ${{ env.RELEASE_VERSION }}
 
       - name: ls
         run: |
