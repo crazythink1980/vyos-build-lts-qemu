@@ -16,6 +16,7 @@ jobs:
       image: vyos/vyos-build:sagitta
       env:
         TZ: Asia/Shanghai
+        RELEASE_VERSION: 1.4.0
       options: --privileged
 
     steps:
