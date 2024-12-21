@@ -25,23 +25,16 @@ jobs:
 
           git clone -b sagitta --single-branch https://github.com/vyos/vyos-build
 
-      - name: configure
-        working-directory: vyos-build
-        run: |
-          set -eux
-
-          ./configure \
-            --architecture amd64 \
-            --build-by crazythink@139.com \
-            --build-type release \
-            --version ${{ env.RELEASE_VERSION }}
-
       - name: make iso
         working-directory: vyos-build
         run: |
           set -eux
 
-          make iso
+          ./build-vyos-image iso \
+            --architecture amd64 \
+            --build-by crazythink@139.com \
+            --build-type release \
+            --version ${{ env.RELEASE_VERSION }}
 
       - name: ls
         run: |
